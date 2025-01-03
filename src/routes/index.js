@@ -29,6 +29,10 @@ const programTypeRoutes = require('./programTypeRoutes');
 const zoneRoutes = require('./zoneRoutes');
 const mediaRoutes = require('./mediaRoutes');
 const uploadRoutes = require('./uploadRoutes');
+// Importar as novas rotas
+const editionRoutes = require('./editionRoutes');
+const companyRoutes = require('./companyRoutes');
+
 
 // Auth routes
 router.use('/auth', authRoutes);
@@ -62,6 +66,9 @@ router.use('/site-data', siteDataRoutes);
 router.use('/hub-data', hubDataRoutes);
 router.use('/upload', uploadRoutes);
 router.use('/media', mediaRoutes);
+// Usar as novas rotas
+router.use('/editions', editionRoutes);
+router.use('/companies', companyRoutes);
 
 
 module.exports = router;

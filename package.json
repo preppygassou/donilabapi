@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
-    "client": "cd dashboard && npm run dev",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "dev:all": "concurrently \"npm run dev\"",
     "install:all": "npm install"
   },
