@@ -67,6 +67,9 @@ router.put('/:hubId/galerie', galerieValidation, hubDataController.updateGalerie
 router.put('/:hubId/summary', summaryValidation, hubDataController.updateSummary);
 router.put('/:hubId/specificities', specificitiesValidation, hubDataController.updateSpecificities);
 router.put('/:hubId/services', servicesValidation, hubDataController.updateServices);
+router.put('/:hubId/description_team', hubDataController.updateDescriptionTeam);
+router.put('/:hubId/description_program_hub', hubDataController.updateDescriptionProgramHub);
+router.put('/:hubId/description_program_partner', hubDataController.updateDescriptionProgramPartner);
 router.put('/:hubId/data', dataValidation, hubDataController.updateData);
 
 // Get routes

@@ -106,6 +106,43 @@ exports.updateSummary = async (req, res) => {
   }
 };
 
+exports.updateDescriptionTeam = async (req, res) => {
+  try {
+    const hub = await Hub.findByPk(req.params.hubId);
+    if (!hub) {
+      return res.status(404).json({ error: 'Hub not found' });
+    }
+    await hub.update({ description_team: req.body });
+    res.json({ description_team: hub.description_team });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+exports.updateDescriptionProgramHub = async (req, res) => {
+  try {
+    const hub = await Hub.findByPk(req.params.hubId);
+    if (!hub) {
+      return res.status(404).json({ error: 'Hub not found' });
+    }
+    await hub.update({ description_program_hub: req.body });
+    res.json({ description_program_hub: hub.description_program_hub });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+exports.updateDescriptionProgramPartner = async (req, res) => {
+  try {
+    const hub = await Hub.findByPk(req.params.hubId);
+    if (!hub) {
+      return res.status(404).json({ error: 'Hub not found' });
+    }
+    await hub.update({ description_program_partner: req.body });
+    res.json({ description_program_partner: hub.description_program_partner });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 exports.updateSpecificities = async (req, res) => {
   try {
     const hub = await Hub.findByPk(req.params.hubId);

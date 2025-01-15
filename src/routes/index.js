@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 
 const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes');
@@ -40,16 +41,16 @@ router.use('/auth', authRoutes);
 // Protected routes
 const auth = require('../middleware/auth');
 router.use('/users', auth, userRoutes);
-router.use('/sites', auth, siteRoutes);
-router.use('/hubs', auth, hubRoutes);
-router.use('/posts', auth, postRoutes);
+router.use('/sites', /* auth,  */siteRoutes);
+router.use('/hubs', /* auth,  */hubRoutes);
+router.use('/posts', /* auth, */ postRoutes);
 router.use('/categories', auth, categoryRoutes);
 router.use('/tags', auth, tagRoutes);
 router.use('/partners', auth, partnerRoutes);
 router.use('/events', auth, eventRoutes);
 router.use('/bookings', auth, bookingRoutes);
 router.use('/comments', auth, commentRoutes);
-router.use('/programs', auth, programRoutes);
+router.use('/programs', /* auth, */ programRoutes);
 router.use('/program-types', programTypeRoutes);
 router.use('/zones', zoneRoutes);
 router.use('/reports', auth, reportRoutes);
@@ -69,6 +70,10 @@ router.use('/media', mediaRoutes);
 // Usar as novas rotas
 router.use('/editions', editionRoutes);
 router.use('/companies', companyRoutes);
+// Static files
+router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+//router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 
 
 module.exports = router;

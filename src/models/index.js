@@ -76,8 +76,8 @@ const setupAssociations = () => {
   db.Site.hasMany(db.Team);
   db.Team.belongsTo(db.Site);
 
-  db.Site.hasMany(db.Event);
-  db.Event.belongsTo(db.Site);
+  db.Site.hasMany(db.Event, { foreignKey: 'siteId' });
+  db.Event.belongsTo(db.Site, { foreignKey: 'siteId' });
 
   db.Site.hasMany(db.SiteSidebarOption);
   db.SiteSidebarOption.belongsTo(db.Site);
@@ -131,16 +131,19 @@ const setupAssociations = () => {
   db.Site.belongsToMany(db.Partner, { through: 'SitePartner' });
   db.Partner.belongsToMany(db.Site, { through: 'SitePartner' });
 
-  // Partner relationships
-  db.Site.belongsToMany(db.Program, { through: 'SiteProgram' });
-  db.Program.belongsToMany(db.Site, { through: 'SiteProgram' });
+ 
 
+/* 
+  // Partner relationships
+  db.Site.belongsToMany(db.Partner, { through: 'SitePartner' });
+  db.Partner.belongsToMany(db.Site, { through: 'SitePartner' });
+ */
   db.Hub.belongsToMany(db.Partner, { through: 'HubPartner' });
   db.Partner.belongsToMany(db.Hub, { through: 'HubPartner' });
 
-  db.Hub.belongsToMany(db.Program, { through: 'HubProgram' });
+ /*  db.Hub.belongsToMany(db.Program, { through: 'HubProgram' });
   db.Program.belongsToMany(db.Hub, { through: 'HubProgram' });
-
+ */
   db.Program.belongsToMany(db.Partner, { through: 'ProgramPartner' });
   db.Partner.belongsToMany(db.Program, { through: 'ProgramPartner' });
 
@@ -149,29 +152,41 @@ const setupAssociations = () => {
   db.ProgramType.hasMany(db.Program);
 
   // Add Program-Zone many-to-many relationship
-  db.Program.belongsToMany(db.Zone, { through: db.ProgramZone });
-  db.Zone.belongsToMany(db.Program, { through: db.ProgramZone });
+  db.Program.belongsToMany(db.Zone, { through: "ProgramZone" });
+  db.Zone.belongsToMany(db.Program, { through: "ProgramZone" });
+
+   // Site/Company relationships
+   db.Company.belongsTo(db.Site);
+   db.Site.hasMany(db.Company);
+ 
+   // Hub/Company relationships
+   db.Company.belongsTo(db.Hub);
+   db.Hub.hasMany(db.Company);
 
   // Define the many-to-many relationship between Program and Company with Edition
 db.Program.belongsToMany(db.Company, { 
-  through: db.ProgramCompany,  // Join table
-  foreignKey: 'programId',     // Foreign key for Program
-  otherKey: 'partnerId',       // Foreign key for Company
+  through: "ProgramBeneficiary",  // Join table
 });
 
 db.Company.belongsToMany(db.Program, { 
-  through: db.ProgramCompany, 
-  foreignKey: 'partnerId',     // Foreign key for Company
-  otherKey: 'programId',       // Foreign key for Program
+  through: "ProgramBeneficiary", 
+});
+
+db.Program.belongsToMany(db.Edition, { 
+  through: "ProgramEdition",  // Join table
+});
+
+db.Edition.belongsToMany(db.Program, { 
+  through: "ProgramEdition",     // Foreign key for Program
 });
 
   // Define the relationship between ProgramCompany and Edition
-  db.ProgramCompany.belongsTo(db.Edition, { 
+  /* db.ProgramCompany.belongsTo(db.Edition, { 
     foreignKey: 'editionId',     // Foreign key for Edition in ProgramCompany
   });
   db.Edition.hasMany(db.ProgramCompany, { 
     foreignKey: 'editionId',     // Corresponding reference in Edition
-  });
+  }); */
 
   // Permission relationships
   db.User.hasMany(db.SitePermissions, { foreignKey: 'email', sourceKey: 'email' });

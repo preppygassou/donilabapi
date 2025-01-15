@@ -11,7 +11,7 @@ exports.createProgramType = async (req, res) => {
 
 exports.getAllProgramTypes = async (req, res) => {
   try {
-    const programTypes = await ProgramType.findAll();
+    const programTypes = await ProgramType.findAll({ order: [['createdAt', 'ASC']] });
     res.json(programTypes);
   } catch (error) {
     res.status(500).json({ error: error.message });

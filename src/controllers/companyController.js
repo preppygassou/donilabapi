@@ -1,5 +1,5 @@
 
-const {Company} = require('../models');
+const {Company,Site,Hub} = require('../models');
 
 // Create a new company
 exports.createCompany = async (req, res) => {
@@ -16,8 +16,8 @@ exports.updateCompany = async (req, res) => {
     try {
         const [updated] = await Company.update(req.body, {
             where: { id: req.params.id },
-            returning: true,
-            individualHooks: true
+            /* returning: true,
+            individualHooks: true */
         });
         if (!updated) {
             return res.status(404).json({ error: 'Company not found' });
@@ -43,3 +43,17 @@ exports.deleteCompany = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
+exports.getAllCompanies = async (req, res) => {
+    try {
+      const Companies = await Company.findAll({
+        /* include: [
+          { model: Site },
+          { model: Hub }
+        ] */
+      });
+      res.json(Companies);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };

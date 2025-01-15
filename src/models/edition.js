@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Edition = sequelize.define('Edition', {
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull: false
     },
   });

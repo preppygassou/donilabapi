@@ -15,7 +15,22 @@ const hubModel = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.JSON,
         allowNull: false,
-        defaultValue: { en: '', fr: '' }
+        defaultValue: {}
+      },
+      description_team: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        defaultValue: {}
+      },
+      description_program_hub: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        defaultValue: {}
+      },
+      description_program_partner: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        defaultValue: {}
       },
       logo: {
         type: DataTypes.JSON,

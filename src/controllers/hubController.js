@@ -19,6 +19,7 @@ exports.createHub = async (req, res) => {
     if (req.file) {
       await fs.unlink(req.file.path).catch(console.error);
     }
+   
     res.status(400).json({ error: error.message });
   }
 };
@@ -61,7 +62,64 @@ exports.getHubById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.getHubBySlugLang = async (req, res) => {
+  try {
+    const { slug, lang } = req.params;
 
+    const hub = await Hub.findOne({
+      where: {
+        [`slug.${lang}`]: slug
+      },
+      include: [
+        /* { model: Site }, */
+       /*  { model: Partner }, */
+        {
+          association: 'HubPartner',
+          attributes: ['id', 'name', 'logo', 'link', 'createdAt', 'updatedAt']
+        },
+        /* {
+          association: 'Events',
+          attributes: ['id', 'name', 'date', 'location', 'createdAt', 'updatedAt']
+        },
+        {
+          association: 'Teams',
+          attributes: ['id', 'name', 'createdAt', 'updatedAt']
+        }, */
+        /* { model: Event }, */
+       /*  { model: Program }, */
+        /* { model: Team }, */
+        /* { model: HubSidebarOption } */
+      ]
+    });
+    if (!hub) {
+      return res.status(404).json({ error: 'Hub not found' });
+    }
+    res.json(hub);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.filterHubsBySlugLang = async (req, res) => {
+  try {
+    const { slug, lang } = req.params;
+    const hubs = await Hub.findAll({
+      include: [
+        { model: Site },
+        { model: Partner },
+        { model: Event },
+        { model: Program },
+        { model: Team },
+        /* { model: HubSidebarOption } */
+      ]
+    });
+
+    const filteredHubs = hubs.filter(hub => hub.slug[lang] === slug);
+   
+    res.json(filteredHubs[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 exports.updateHub = async (req, res) => {
   try {
     const hub = await Hub.findByPk(req.params.id);

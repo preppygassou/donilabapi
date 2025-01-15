@@ -4,12 +4,13 @@ const router = express.Router();
 const companyController = require('../controllers/companyController');
 
 // Create a new company
-router.post('/companies', companyController.createCompany);
+router.post('/', companyController.createCompany);
+router.get('/', companyController.getAllCompanies);
 
 // Update an existing company
-router.put('/companies/:id', companyController.updateCompany);
+router.put('/:id', companyController.updateCompany);
 
 // Delete a company
-router.delete('/companies/:id', companyController.deleteCompany);
+router.delete('/:id', companyController.deleteCompany);
 
 module.exports = router;

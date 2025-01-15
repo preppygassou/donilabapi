@@ -1,4 +1,4 @@
-const { Site } = require('../models');
+const { Site,Event } = require('../models');
 
 exports.createSite = async (req, res) => {
   try {
@@ -23,12 +23,39 @@ exports.getAllSites = async (req, res) => {
 exports.getSiteById = async (req, res) => {
   try {
     const site = await Site.findByPk(req.params.id, {
-      include: ['Hubs']
+      include: [{
+      association: 'Hubs',
+      include: ['Events']
+      },
+      {
+      association: 'Events'
+      },
+      {
+      association: 'Teams'
+      },
+      {
+      association: 'Reports'
+      },
+      {
+      association: 'Programs'
+      },
+    ]
     });
     if (!site) {
       return res.status(404).json({ error: 'Site not found' });
     }
-    res.json(site);
+    res.json({
+      ...site.toJSON(),
+      hubs: site.Hubs
+    .map(hub => ({
+      ...hub.toJSON(),
+      events: hub.Events
+    })),
+    events:site.Events,
+    teams:site.Teams,
+    reports:site.Reports,
+    programs:site.Programs,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

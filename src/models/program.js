@@ -49,18 +49,6 @@ const programModel = (sequelize, DataTypes) => {
     galerie: {
       type: DataTypes.JSON,
       allowNull: true,
-      /* validate: {
-        isValidGalerie(value) {
-          if (!Array.isArray(value)) {
-            throw new Error('Galerie must be an array');
-          }
-          value.forEach(item => {
-            if (!item.url) {
-              throw new Error('Each gallery item must have a URL');
-            }
-          });
-        }
-      }, */
       defaultValue: []
     },
     objectif: {

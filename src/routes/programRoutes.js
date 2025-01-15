@@ -15,7 +15,9 @@ const programValidation = [
 router.post('/', programValidation, programController.createProgram);
 router.get('/', programController.getAllPrograms);
 router.get('/:id', programController.getProgramById);
-router.put('/:id', programValidation, programController.updateProgram);
+router.get('/slug/:slug/:lang', programController.filterProgramsBySlugLang);
+router.put('/:id', /* programValidation, */ programController.updateProgram);
+router.put('/beneficiary/beneficiaries/:id', /* programValidation, */ programController.updateProgramBeneficiary);
 router.delete('/:id', programController.deleteProgram);
 
 module.exports = router;
